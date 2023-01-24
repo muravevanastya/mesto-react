@@ -9,6 +9,8 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false)
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
+  const [isImagePopupOpen, setImagePopupOpen] = React.useState(false)
+  const [selectedCard, setSelectedCard] = React.useState({})
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true)
@@ -26,22 +28,28 @@ function App() {
     setEditProfilePopupOpen(false)
     setAddPlacePopupOpen(false)
     setEditAvatarPopupOpen(false)
+    setImagePopupOpen(false)
+  }
+
+  function handleCardClick(card) {
+    setImagePopupOpen(true)
+    setSelectedCard(card)
   }
 
   return (
-    <div className="body">
       <div className="page">
       <Header />
       <Main 
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleAvatarProfileClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm 
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        name="popupEditForm"
+        name="edit"
         title="Редактировать профиль"
         buttonText="Сохранить"
         noValidate
@@ -72,7 +80,7 @@ function App() {
       <PopupWithForm 
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        name="cardForm"
+        name="add"
         title="Новое место"
         buttonText="Создать"
         noValidate
@@ -101,7 +109,7 @@ function App() {
       <PopupWithForm 
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        name="avatarForm"
+        name="avatar"
         title="Обновить аватар"
         buttonText="Сохранить"
         noValidate
@@ -116,13 +124,17 @@ function App() {
         <span className="popup__error popup-avatar-error"></span>
       </PopupWithForm>
       <PopupWithForm
-        name="cardForm"
-        title="Обновить аватар"
-        buttonText="Сохранить"
+        name="confirm"
+        title="Вы уверены?"
+        buttonText="Да"
       />
-      <ImagePopup/>
+      <ImagePopup
+        name="image"
+        card={selectedCard}
+        onClose={closeAllPopups}
+        isOpen={isImagePopupOpen}
+      />
       </div>
-    </div>
   );
 }
 
