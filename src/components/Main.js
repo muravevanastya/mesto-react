@@ -1,6 +1,7 @@
 import React from 'react';
 import pencil from '../images/Vector(2).svg';
 import { api } from '../utils/Api';
+import Card from './Card';
 
 function Main({onEditProfile, onAddPlace, onEditAvatar}) {
 
@@ -15,6 +16,14 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
                 setUserName(data.name)
                 setUserDescription(data.about)
                 setUserAvatar(data.avatar)
+            })
+            .catch((err) => console.log(err))
+    }, [])
+
+    React.useEffect(() => {
+        api.getInitialCards()
+            .then((data) => {
+                setCards(data)
             })
             .catch((err) => console.log(err))
     }, [])
@@ -36,6 +45,16 @@ function Main({onEditProfile, onAddPlace, onEditAvatar}) {
                 <button type="button" className="profile__add-button" onClick={onAddPlace}></button>
             </div>
             <section className="elements">
+                {
+                    cards.map((card) => {
+                        return (
+                            <Card
+                            card={card}
+                            key={card._id}
+                        />
+                        )
+                    })
+                }
             </section>
         </main>
     )
