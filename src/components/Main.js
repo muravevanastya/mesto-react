@@ -1,21 +1,37 @@
 import React from 'react';
-import profileAvatar from '../images/image.jpg';
 import pencil from '../images/Vector(2).svg';
+import { api } from '../utils/Api';
 
 function Main({onEditProfile, onAddPlace, onEditAvatar}) {
+
+    const [userName, setUserName] = React.useState('')
+    const [userDescription, setUserDescription] = React.useState('')
+    const [userAvatar, setUserAvatar] = React.useState('')
+    const [cards, setCards] = React.useState([])
+
+    React.useEffect(() => {
+        api.getUserInfo()
+            .then((data) => {
+                setUserName(data.name)
+                setUserDescription(data.about)
+                setUserAvatar(data.avatar)
+            })
+            .catch((err) => console.log(err))
+    }, [])
+
     return (
         <main className="content">
             <div className="profile">
                 <div className="profile__avatar-wrapper" onClick={onEditAvatar}>
-                    <img src={profileAvatar} alt="Жак-Ив Кусто" className="profile__ellipse"/>
+                    <img src={userAvatar} alt="Жак-Ив Кусто" className="profile__ellipse"/>
                     <button className="profile__ellipse-pencil" type="button"></button>
                 </div>
                 <div className="profile__info">
-                    <h1 className="profile__info-name">Жак-Ив Кусто</h1>
+                    <h1 className="profile__info-name">{userName}</h1>
                     <button type="button" className="profile__info-edit-button" onClick={onEditProfile}>
                         <img src={pencil} alt="Карандаш" className="profile__pencil"/>
                     </button>
-                    <p className="profile__info-text">Исследователь океана</p>
+                    <p className="profile__info-text">{userDescription}</p>
                 </div>
                 <button type="button" className="profile__add-button" onClick={onAddPlace}></button>
             </div>
