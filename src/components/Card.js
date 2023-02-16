@@ -8,8 +8,10 @@ function Card(props) {
     const cardLikeButtonClassName = ( 
         // `element__like ${isLiked && "element__like_active"}` 
         `element__like ${isLiked ? 'element__like_active' : ''}`
-
     );
+    // const cardDeleteButtonClassName = (
+    //     `element__delete ${isOwn ? '' : 'element__delete_hidden'}`
+    // )
 
     function handleCardClick() {
         props.onCardClick(props.card);
@@ -26,7 +28,7 @@ function Card(props) {
     return (
         <div className="elements-template">
             <div className="element">
-                {/* <button className="element__delete" type="button">
+                {/* <button className={cardDeleteButtonClassName} type="button" onClick={handleDeleteClick}>
                 </button> */}
                 {isOwn && <button className="element__delete" onClick={handleDeleteClick} />} 
                 <img className="element__image" src={props.card.link} alt={props.card.name} onClick={handleCardClick}/>

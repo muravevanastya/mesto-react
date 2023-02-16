@@ -62,6 +62,14 @@ function App() {
       .catch((err) => console.log(err))
   }
 
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter((item) => item !== card))
+      })
+      .catch((err) => console.log(err))
+  }
+
     React.useEffect(() => {
         api.getInitialCards()
             .then((data) => {
@@ -80,6 +88,7 @@ function App() {
           onEditAvatar={handleAvatarProfileClick}
           onCardClick={handleCardClick}
           handleCardLike={handleCardLike}
+          handleCardDelete={handleCardDelete}
           cards={cards}
         />
         <Footer />
