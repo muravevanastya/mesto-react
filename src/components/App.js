@@ -5,6 +5,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { api } from '../utils/Api';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
@@ -12,6 +13,7 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false)
   const [isImagePopupOpen, setImagePopupOpen] = React.useState(false)
   const [selectedCard, setSelectedCard] = React.useState({})
+  const [cards, setCards] = React.useState([])
   const [currentUser, setCurrentUser] = React.useState({})
 
   function handleEditProfileClick() {
@@ -38,6 +40,36 @@ function App() {
     setSelectedCard(card)
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    console.log(isLiked);
+    // if (isLiked) {
+    //   api.deleteLike(card._id)
+    //   .then((newCard) => {
+    //     setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    // })
+    // } else {
+    //   api.addLike(card._id)
+    //   .then((newCard) => {
+    //     setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    // })
+    // .catch((err) => console.log(err))
+    // }
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+      .catch((err) => console.log(err))
+  }
+
+    React.useEffect(() => {
+        api.getInitialCards()
+            .then((data) => {
+                setCards(data)
+            })
+            .catch((err) => console.log(err))
+    }, [])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -47,6 +79,8 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleAvatarProfileClick}
           onCardClick={handleCardClick}
+          handleCardLike={handleCardLike}
+          cards={cards}
         />
         <Footer />
         <PopupWithForm 

@@ -4,13 +4,13 @@ import { api } from '../utils/Api';
 import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, handleCardLike, cards}) {
     const currentUser = React.useContext(CurrentUserContext)
 
     // const [userName, setUserName] = React.useState('')
     // const [userDescription, setUserDescription] = React.useState('')
     // const [userAvatar, setUserAvatar] = React.useState('')
-    const [cards, setCards] = React.useState([])
+    // const [cards, setCards] = React.useState([])
 
     // React.useEffect(() => {
     //     api.getUserInfo()
@@ -22,13 +22,13 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
     //         .catch((err) => console.log(err))
     // }, [])
 
-    React.useEffect(() => {
-        api.getInitialCards()
-            .then((data) => {
-                setCards(data)
-            })
-            .catch((err) => console.log(err))
-    }, [])
+    // React.useEffect(() => {
+    //     api.getInitialCards()
+    //         .then((data) => {
+    //             setCards(data)
+    //         })
+    //         .catch((err) => console.log(err))
+    // }, [])
 
     return (
         <main className="content">
@@ -54,6 +54,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
                             card={card}
                             key={card._id}
                             onCardClick={onCardClick}
+                            onCardLike={handleCardLike}
                         />
                         )
                     })
