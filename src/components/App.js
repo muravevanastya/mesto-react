@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
@@ -78,6 +79,15 @@ function App() {
             .catch((err) => console.log(err))
     }, [])
 
+    function handleUpdateUser(userData) {
+      api.setUserInfoApi(userData)
+      .then((data) => {
+        setCurrentUser(data)
+        closeAllPopups()
+      })
+      .catch((err) => console.log(err))
+    }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -92,37 +102,11 @@ function App() {
           cards={cards}
         />
         <Footer />
-        <PopupWithForm 
+        <EditProfilePopup 
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          name="edit"
-          title="Редактировать профиль"
-          buttonText="Сохранить"
-          noValidate
-        >
-          <input 
-          className="popup__input popup__input_type_name" 
-          id="profile-name" 
-          type="text" 
-          name="name" 
-          placeholder="Имя" 
-          minLength="2" 
-          maxLength="40" 
-          required
-          />
-          <span className="profile-name-error popup__error"></span>
-            <input 
-            className="popup__input popup__input_type_job" 
-            id="profile-job" 
-            type="text" 
-            name="description" 
-            placeholder="Вид деятельности" 
-            minLength="2"
-            maxLength="200" 
-            required
-            />
-          <span className="profile-job-error popup__error"></span>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
         <PopupWithForm 
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
