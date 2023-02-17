@@ -1,6 +1,5 @@
 import React from 'react';
 import pencil from '../images/Vector(2).svg';
-import { api } from '../utils/Api';
 import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
