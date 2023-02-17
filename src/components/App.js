@@ -8,6 +8,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false)
@@ -98,6 +99,15 @@ function App() {
       .catch((err) => console.log(err))
     }
 
+    function handleAddPlaceSubmit(cardData) {
+      api.addUserCard(cardData)
+        .then((newCard) => {
+          setCards([newCard, ...cards])
+          closeAllPopups()
+        })
+        .catch((err) => console.log(err))
+    }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -117,35 +127,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        <PopupWithForm 
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          name="add"
-          title="Новое место"
-          buttonText="Создать"
-          noValidate
-        >
-          <input 
-          className="popup__input popup__input_type_name" 
-          id="cards-name" 
-          type="text" 
-          name="name" 
-          placeholder="Название" 
-          minLength="2" 
-          maxLength="30" 
-          required
-          />
-          <span className="cards-name-error popup__error"></span>
-          <input 
-          className="popup__input popup__input_type_job" 
-          id="cards-link" 
-          type="url" 
-          name="link" 
-          placeholder="Ссылка на картинку" 
-          required
-          />
-          <span className="cards-link-error popup__error"></span>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
