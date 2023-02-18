@@ -55,45 +55,48 @@ function App() {
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter((item) => item !== card))
+        setCards((state) => 
+          state.filter((item) => item._id !== card._id)
+        )
       })
       .catch((err) => console.log(err))
   }
 
-    React.useEffect(() => {
-        api.getInitialCards()
-            .then((data) => {
-                setCards(data)
-            })
-            .catch((err) => console.log(err))
-    }, [])
+  React.useEffect(() => {
+    Promise.all([api.getInitialCards(), api.getUserInfo()])
+      .then(([cards, user]) => {
+        setCards(cards);
+        setCurrentUser(user)
+      })
+      .catch((err) => console.log(err))
+  }, [])
 
-    function handleUpdateUser(userData) {
-      api.setUserInfoApi(userData)
+  function handleUpdateUser(userData) {
+    api.setUserInfoApi(userData)
       .then((data) => {
         setCurrentUser(data)
         closeAllPopups()
       })
       .catch((err) => console.log(err))
-    }
+  }
 
-    function handleUpdateAvatar(userData) {
-      api.changeUserAvatar(userData)
+  function handleUpdateAvatar(userData) {
+    api.changeUserAvatar(userData)
       .then((data) => {
         setCurrentUser(data)
         closeAllPopups()
       })
       .catch((err) => console.log(err))
-    }
+  }
 
-    function handleAddPlaceSubmit(cardData) {
-      api.addUserCard(cardData)
-        .then((newCard) => {
-          setCards([newCard, ...cards])
-          closeAllPopups()
-        })
-        .catch((err) => console.log(err))
-    }
+  function handleAddPlaceSubmit(cardData) {
+    api.addUserCard(cardData)
+      .then((newCard) => {
+        setCards([newCard, ...cards])
+        closeAllPopups()
+      })
+      .catch((err) => console.log(err))
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
