@@ -33,8 +33,8 @@
 * функциональные компоненты.
 
 ## Инструкция по запуску приложения
-* клонировать репозиторий <code>git clone https://github.com/muravevanastya/mesto.git</code>
-* перейти в папку с проектом <code>cd mesto</code>
+* клонировать репозиторий <code>git clone https://github.com/muravevanastya/mesto-react.git</code>
+* перейти в папку с проектом <code>cd mesto-react</code>
 * установить зависимости <code>npm install</code>
 * открыть файл <code>index.html</code>
 
