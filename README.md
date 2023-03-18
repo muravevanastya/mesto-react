@@ -36,7 +36,7 @@
 * клонировать репозиторий <code>git clone https://github.com/muravevanastya/mesto-react.git</code>
 * перейти в папку с проектом <code>cd mesto-react</code>
 * установить зависимости <code>npm install</code>
-* открыть файл <code>index.html</code>
+* запустить проект <code>npm start</code>
 
 ## Планы по доработке
 * реализовать валидацию форм
