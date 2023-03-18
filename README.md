@@ -43,4 +43,9 @@
 * реализовать закрытие не только при нажатии на крестик, но и на ESC и Enter
 
 ## Ссылка на проект
-https://muravevanastya.github.io/mesto/
+
+---
+
+https://muravevanastya.github.io/mesto-react/
+
+---
